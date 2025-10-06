@@ -1,6 +1,7 @@
 import 'package:adventure_demo/src/service_locator.dart';
 import 'package:adventure_demo/src/services/ai_provider.dart';
 import 'package:adventure_demo/src/services/gemini_ai_provider.dart';
+import 'src/ui/start_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -18,11 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Scaffold(
-        body: Center(
-          child: Text('Adventure Forge'),
-        ),
-      ),
+      home: const StartScreen(),
     );
   }
 }
