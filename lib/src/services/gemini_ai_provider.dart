@@ -81,14 +81,10 @@ class GeminiAIProvider implements AIProvider {
         );
       }
 
-      // The vision model returns the image bytes in the first part of the response.
-      if (response.candidates.isNotEmpty &&
-          response.candidates.first.content.parts.isNotEmpty &&
-          response.candidates.first.content.parts.first is DataPart) {
-        return (response.candidates.first.content.parts.first as DataPart)
-            .bytes;
+      if (response.text == null) {
+        throw Exception('Image generation response did not contain image data.');
       }
-      throw Exception('Image generation response did not contain image data.');
+      return base64Decode(response.text!);
     } catch (e) {
       debugPrint('Error generating image: $e');
       throw Exception('Failed to create the scene\'s image. Please try again.');
