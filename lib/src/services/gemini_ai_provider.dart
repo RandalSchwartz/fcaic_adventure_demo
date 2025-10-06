@@ -17,12 +17,11 @@ class GeminiAIProvider implements AIProvider {
               responseMimeType: 'application/json',
             ),
           ),
-      _imageModel =
-          imageModel ??
-          GenerativeModel(
-            model: 'gemini-2.5-flash-image',
-            apiKey: geminiApiKey,
-          );
+        _imageModel = imageModel ??
+            GenerativeModel(
+              model: 'gemini-pro-vision',
+              apiKey: geminiApiKey,
+            );
 
   final GenerativeModel _storyModel;
   final GenerativeModel _imageModel;
@@ -81,10 +80,14 @@ class GeminiAIProvider implements AIProvider {
         );
       }
 
-      if (response.text == null) {
-        throw Exception('Image generation response did not contain image data.');
+      // The vision model returns the image bytes in the first part of the response.
+      if (response.candidates.isNotEmpty &&
+          response.candidates.first.content.parts.isNotEmpty &&
+          response.candidates.first.content.parts.first is DataPart) {
+        return (response.candidates.first.content.parts.first as DataPart)
+            .bytes;
       }
-      return base64Decode(response.text!);
+      throw Exception('Image generation response did not contain image data.');
     } catch (e) {
       debugPrint('Error generating image: $e');
       throw Exception('Failed to create the scene\'s image. Please try again.');
