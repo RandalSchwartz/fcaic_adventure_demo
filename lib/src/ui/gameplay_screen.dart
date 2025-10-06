@@ -42,6 +42,34 @@ class _GameplayScreenState extends State<GameplayScreen> {
           return const Center(child: CircularProgressIndicator());
         }
 
+        if (_adventureService.errorMessage.value != null) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  _adventureService.errorMessage.value!,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    final lastChoice =
+                        _adventureService.storyHistory.value.lastOrNull;
+                    if (lastChoice != null) {
+                      // This is a simplification. A real app would need
+                      // to know the last *action*, not the last state.
+                      // For now, we'll just retry the last theme.
+                      _adventureService.startAdventure('A magical forest');
+                    }
+                  },
+                  child: const Text('Retry'),
+                ),
+              ],
+            ),
+          );
+        }
+
         final story = _adventureService.storyHistory.value.lastOrNull;
         if (story == null) {
           return const Center(child: Text('No story yet.'));
