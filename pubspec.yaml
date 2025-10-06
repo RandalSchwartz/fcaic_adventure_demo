@@ -37,6 +37,7 @@ dependencies:
   google_generative_ai: ^0.4.7
   signals: ^6.2.0
   mocktail: ^1.0.4
+  signals_flutter: ^6.2.0
 
 dev_dependencies:
   flutter_test:

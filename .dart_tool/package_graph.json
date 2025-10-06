@@ -11,7 +11,8 @@
         "flutter",
         "google_generative_ai",
         "mocktail",
-        "signals"
+        "signals",
+        "signals_flutter"
       ],
       "devDependencies": [
         "flutter_lints",
@@ -41,6 +42,14 @@
         "stream_channel",
         "test_api",
         "vector_math"
+      ]
+    },
+    {
+      "name": "signals_flutter",
+      "version": "6.2.0",
+      "dependencies": [
+        "flutter",
+        "signals_core"
       ]
     },
     {
@@ -172,14 +181,6 @@
         "stream_channel",
         "string_scanner",
         "term_glyph"
-      ]
-    },
-    {
-      "name": "signals_flutter",
-      "version": "6.2.0",
-      "dependencies": [
-        "flutter",
-        "signals_core"
       ]
     },
     {

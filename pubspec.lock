@@ -196,7 +196,7 @@ packages:
     source: hosted
     version: "6.2.0"
   signals_flutter:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: signals_flutter
       sha256: d04c973e3feeaddd7d8428f3a8af911297febb3c083091217e1a1fc0c4d6504f

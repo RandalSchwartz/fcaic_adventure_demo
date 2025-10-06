@@ -1,3 +1,4 @@
+import 'package:adventure_demo/src/ui/gameplay_screen.dart';
 import 'package:flutter/material.dart';
 
 class StartScreen extends StatelessWidget {
@@ -29,7 +30,11 @@ class StartScreen extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // TODO: Implement navigation to gameplay screen
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const GameplayScreen(),
+                  ),
+                );
               },
               child: const Text('Start Adventure'),
             ),
