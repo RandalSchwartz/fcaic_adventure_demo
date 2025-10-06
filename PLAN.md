@@ -4,13 +4,13 @@ This plan outlines the necessary steps to build the Minimum Viable Product (MVP)
 
 ## High-Level Checklist
 
--   [ ] **1. Project Setup & Foundation:** Configure the Flutter project, add dependencies, and establish the core architecture.
--   [ ] **2. AI Service Abstraction:** Create the `AIProvider` interface and a concrete implementation for the Gemini API.
--   [ ] **3. Dependency Injection:** Implement the `ServiceLocator` to provide services throughout the app.
--   [ ] **4. Themed Story Initiation UI:** Build the initial screen for users to input their story theme.
--   [ ] **5. Core Models:** Define the Dart classes for the story data structures.
--   [ ] **6. State Management Setup:** Implement the core `AdventureService` using `signals` to manage application state.
--   [ ] **7. Gameplay UI:** Develop the main screen that displays the story, image, and choices.
+-   [x] **1. Project Setup & Foundation:** Configure the Flutter project, add dependencies, and establish the core architecture.
+-   [x] **2. AI Service Abstraction:** Create the `AIProvider` interface and a concrete implementation for the Gemini API.
+-   [x] **3. Dependency Injection:** Implement the `ServiceLocator` to provide services throughout the app.
+-   [x] **4. Themed Story Initiation UI:** Build the initial screen for users to input their story theme.
+-   [x] **5. Core Models:** Define the Dart classes for the story data structures.
+-   [x] **6. State Management Setup:** Implement the core `AdventureService` using `signals` to manage application state.
+-   [x] **7. Gameplay UI:** Develop the main screen that displays the story, image, and choices.
 -   [ ] **8. Loading & Error UI:** Implement UI components for loading indicators and error messages with a retry mechanism.
 -   [ ] **9. Final Integration & Code Quality:** Connect all components and ensure the codebase meets quality standards.
 
