@@ -11,7 +11,7 @@ class GeminiAIProvider implements AIProvider {
   GeminiAIProvider({GenerativeModel? storyModel, GenerativeModel? imageModel})
       : _storyModel = storyModel ??
             GenerativeModel(
-              model: 'gemini-1.5-flash',
+              model: 'gemini-2.5-pro',
               apiKey: geminiApiKey,
               generationConfig: GenerationConfig(
                 responseMimeType: 'application/json',
@@ -19,7 +19,7 @@ class GeminiAIProvider implements AIProvider {
             ),
         _imageModel = imageModel ??
             GenerativeModel(
-              model: 'gemini-pro-vision',
+              model: 'gemini-2.5-flash-image',
               apiKey: geminiApiKey,
             );
 
