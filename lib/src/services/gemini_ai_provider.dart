@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:adventure_demo/api_key.dart';
 import 'package:adventure_demo/src/models/story_step.dart';
 import 'package:adventure_demo/src/services/ai_provider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 class GeminiAIProvider implements AIProvider {
@@ -36,6 +37,7 @@ class GeminiAIProvider implements AIProvider {
       final json = jsonDecode(response.text!);
       return StoryStep.fromJson(json);
     } catch (e) {
+      debugPrint('Error generating story step: $e');
       throw Exception('Failed to generate the next part of the story. Please try again.');
     }
   }
