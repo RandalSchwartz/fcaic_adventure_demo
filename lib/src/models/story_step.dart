@@ -13,10 +13,10 @@ class StoryStep {
 
   factory StoryStep.fromJson(Map<String, dynamic> json) {
     return StoryStep(
-      title: json['title'] as String,
-      story: json['story'] as String,
-      imagePrompt: json['imagePrompt'] as String,
-      choices: (json['choices'] as List<dynamic>).cast<String>(),
+      title: json['title'] as String? ?? 'Untitled Chapter',
+      story: json['story'] as String? ?? 'The story could not be generated.',
+      imagePrompt: json['imagePrompt'] as String? ?? 'A blank canvas.',
+      choices: (json['choices'] as List<dynamic>?)?.cast<String>() ?? ['Try again'],
     );
   }
 }

@@ -34,7 +34,19 @@ class GeminiAIProvider implements AIProvider {
     final prompt = _buildStoryPrompt(history, choice);
     try {
       final response = await _storyModel.generateContent([Content.text(prompt)]);
-      final json = jsonDecode(response.text!);
+      final responseText = response.text;
+
+      debugPrint('Gemini API Raw Response: $responseText');
+
+      if (responseText == null) {
+        if (response.promptFeedback?.blockReason != null) {
+          final reason = response.promptFeedback!.blockReason;
+          throw Exception('The story prompt was blocked for safety reasons: $reason. Please try a different theme.');
+        }
+        throw Exception('Received an empty response from the AI. Please try again.');
+      }
+
+      final json = jsonDecode(responseText);
       return StoryStep.fromJson(json);
     } catch (e) {
       debugPrint('Error generating story step: $e');
