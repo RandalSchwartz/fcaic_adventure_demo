@@ -15,7 +15,7 @@ class FakeAIProvider implements AIProvider {
     );
   }
 
-  @override
+  // @override
   Future<Uint8List> generateImage(String prompt) async {
     await Future.delayed(const Duration(milliseconds: 100));
     return Uint8List(0);

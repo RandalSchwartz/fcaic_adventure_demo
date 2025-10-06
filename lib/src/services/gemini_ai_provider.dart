@@ -7,24 +7,18 @@ import 'package:flutter/foundation.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 class GeminiAIProvider implements AIProvider {
-  GeminiAIProvider({GenerativeModel? storyModel, GenerativeModel? imageModel})
-    : _storyModel =
-          storyModel ??
-          GenerativeModel(
-            model: 'gemini-2.5-flash',
-            apiKey: geminiApiKey,
-            generationConfig: GenerationConfig(
-              responseMimeType: 'application/json',
-            ),
-          ),
-        _imageModel = imageModel ??
+  GeminiAIProvider({GenerativeModel? storyModel})
+      : _storyModel = storyModel ??
             GenerativeModel(
-              model: 'gemini-pro-vision',
+              model: 'gemini-2.5-flash',
               apiKey: geminiApiKey,
+              generationConfig: GenerationConfig(
+                responseMimeType: 'application/json',
+              ),
             );
 
   final GenerativeModel _storyModel;
-  final GenerativeModel _imageModel;
+  // final GenerativeModel _imageModel;
 
   @override
   Future<StoryStep> generateStoryStep(
@@ -62,37 +56,37 @@ class GeminiAIProvider implements AIProvider {
     }
   }
 
-  @override
-  Future<Uint8List> generateImage(String prompt) async {
-    try {
-      final response = await _imageModel.generateContent([
-        Content.text(
-          'Generate an image in a consistent, painterly fantasy style. $prompt',
-        ),
-      ]);
+  // @override
+  // Future<Uint8List> generateImage(String prompt) async {
+  //   try {
+  //     final response = await _imageModel.generateContent([
+  //       Content.text(
+  //         'Generate an image in a consistent, painterly fantasy style. $prompt',
+  //       ),
+  //     ]);
 
-      debugPrint('Gemini Image API Raw Response: ${response.text}');
+  //     debugPrint('Gemini Image API Raw Response: ${response.text}');
 
-      if (response.promptFeedback?.blockReason != null) {
-        final reason = response.promptFeedback!.blockReason;
-        throw Exception(
-          'The image prompt was blocked for safety reasons: $reason.',
-        );
-      }
+  //     if (response.promptFeedback?.blockReason != null) {
+  //       final reason = response.promptFeedback!.blockReason;
+  //       throw Exception(
+  //         'The image prompt was blocked for safety reasons: $reason.',
+  //       );
+  //     }
 
-      // The vision model returns the image bytes in the first part of the response.
-      if (response.candidates.isNotEmpty &&
-          response.candidates.first.content.parts.isNotEmpty &&
-          response.candidates.first.content.parts.first is DataPart) {
-        return (response.candidates.first.content.parts.first as DataPart)
-            .bytes;
-      }
-      throw Exception('Image generation response did not contain image data.');
-    } catch (e) {
-      debugPrint('Error generating image: $e');
-      throw Exception('Failed to create the scene\'s image. Please try again.');
-    }
-  }
+  //     // The vision model returns the image bytes in the first part of the response.
+  //     if (response.candidates.isNotEmpty &&
+  //         response.candidates.first.content.parts.isNotEmpty &&
+  //         response.candidates.first.content.parts.first is DataPart) {
+  //       return (response.candidates.first.content.parts.first as DataPart)
+  //           .bytes;
+  //     }
+  //     throw Exception('Image generation response did not contain image data.');
+  //   } catch (e) {
+  //     debugPrint('Error generating image: $e');
+  //     throw Exception('Failed to create the scene\'s image. Please try again.');
+  //   }
+  // }
 
   String _buildStoryPrompt(List<StoryStep> history, String choice) {
     if (history.isEmpty) {

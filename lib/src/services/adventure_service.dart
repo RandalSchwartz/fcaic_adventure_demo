@@ -20,9 +20,9 @@ class AdventureService {
     errorMessage.value = null;
     try {
       final initialStep = await _aiProvider.generateStoryStep([], theme);
-      final image = await _aiProvider.generateImage(initialStep.imagePrompt);
+      // final image = await _aiProvider.generateImage(initialStep.imagePrompt);
       storyHistory.value = [initialStep];
-      currentImage.value = image;
+      // currentImage.value = image;
     } catch (e) {
       errorMessage.value = 'Failed to start adventure: $e';
     } finally {
@@ -36,9 +36,9 @@ class AdventureService {
     try {
       final nextStep =
           await _aiProvider.generateStoryStep(storyHistory.value, choice);
-      final image = await _aiProvider.generateImage(nextStep.imagePrompt);
+      // final image = await _aiProvider.generateImage(nextStep.imagePrompt);
       storyHistory.value = [...storyHistory.value, nextStep];
-      currentImage.value = image;
+      // currentImage.value = image;
     } catch (e) {
       errorMessage.value = 'Failed to make choice: $e';
     } finally {

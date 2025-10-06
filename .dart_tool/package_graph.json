@@ -45,6 +45,13 @@
       ]
     },
     {
+      "name": "google_generative_ai",
+      "version": "0.4.7",
+      "dependencies": [
+        "http"
+      ]
+    },
+    {
       "name": "signals_flutter",
       "version": "6.2.0",
       "dependencies": [
@@ -68,13 +75,6 @@
         "flutter",
         "signals_core",
         "signals_flutter"
-      ]
-    },
-    {
-      "name": "google_generative_ai",
-      "version": "0.4.7",
-      "dependencies": [
-        "http"
       ]
     },
     {
@@ -184,14 +184,6 @@
       ]
     },
     {
-      "name": "signals_core",
-      "version": "6.2.0",
-      "dependencies": [
-        "meta",
-        "preact_signals"
-      ]
-    },
-    {
       "name": "http",
       "version": "1.5.0",
       "dependencies": [
@@ -199,6 +191,14 @@
         "http_parser",
         "meta",
         "web"
+      ]
+    },
+    {
+      "name": "signals_core",
+      "version": "6.2.0",
+      "dependencies": [
+        "meta",
+        "preact_signals"
       ]
     },
     {
@@ -276,13 +276,6 @@
       ]
     },
     {
-      "name": "preact_signals",
-      "version": "1.9.3",
-      "dependencies": [
-        "meta"
-      ]
-    },
-    {
       "name": "web",
       "version": "1.1.1",
       "dependencies": []
@@ -295,6 +288,13 @@
         "source_span",
         "string_scanner",
         "typed_data"
+      ]
+    },
+    {
+      "name": "preact_signals",
+      "version": "1.9.3",
+      "dependencies": [
+        "meta"
       ]
     },
     {

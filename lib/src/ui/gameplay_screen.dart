@@ -80,12 +80,12 @@ class _GameplayScreenState extends State<GameplayScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              if (_adventureService.currentImage.value != null)
-                Image.memory(
-                  _adventureService.currentImage.value!,
-                  height: 200,
-                  fit: BoxFit.cover,
-                ),
+              // if (_adventureService.currentImage.value != null)
+              //   Image.memory(
+              //     _adventureService.currentImage.value!,
+              //     height: 200,
+              //     fit: BoxFit.cover,
+              //   ),
               const SizedBox(height: 16),
               Text(
                 story.story,
