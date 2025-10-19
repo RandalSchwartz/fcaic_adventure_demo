@@ -13,5 +13,4 @@ crdoc/
 thumbs.db
 .idea
 .idea/
-api_key.dart
-lib/api_key.dart
+/build/
