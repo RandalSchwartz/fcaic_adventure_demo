@@ -13,8 +13,8 @@ void main() {
 
   setUp(() {
     mockAdventureService = MockAdventureService();
-    when(() => mockAdventureService.isLoading).thenReturn(signal(false));
-    when(() => mockAdventureService.errorMessage).thenReturn(signal(null));
+    when(() => mockAdventureService.storyHistory)
+        .thenReturn(asyncSignal(AsyncState.data([])));
     when(() => mockAdventureService.startAdventure(any()))
         .thenAnswer((_) async {});
     ServiceLocator().register<AdventureService>(mockAdventureService);
@@ -31,7 +31,8 @@ void main() {
 
   testWidgets('StartScreen shows loading indicator',
       (WidgetTester tester) async {
-    when(() => mockAdventureService.isLoading).thenReturn(signal(true));
+    when(() => mockAdventureService.storyHistory)
+        .thenReturn(asyncSignal(AsyncState.loading()));
 
     await tester.pumpWidget(const MaterialApp(home: StartScreen()));
 

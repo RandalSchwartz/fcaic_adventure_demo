@@ -47,15 +47,18 @@ class _StartScreenState extends State<StartScreen> {
             ),
             const SizedBox(height: 20),
             Watch((context) {
+              final story = _adventureService.storyHistory.watch(context);
+              final isLoading = story is AsyncLoading;
+
               return ElevatedButton(
-                onPressed: _adventureService.isLoading.value
+                onPressed: isLoading
                     ? null
                     : () {
                         _adventureService
                             .startAdventure(_textController.text)
                             .then((_) {
                           if (!context.mounted) return;
-                          if (_adventureService.errorMessage.value == null) {
+                          if (_adventureService.storyHistory.value is! AsyncError) {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => const GameplayScreen(),
@@ -64,7 +67,7 @@ class _StartScreenState extends State<StartScreen> {
                           }
                         });
                       },
-                child: _adventureService.isLoading.value
+                child: isLoading
                     ? const CircularProgressIndicator()
                     : const Text('Start Adventure'),
               );

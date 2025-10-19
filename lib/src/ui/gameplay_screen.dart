@@ -18,8 +18,9 @@ class _GameplayScreenState extends State<GameplayScreen> {
   @override
   void initState() {
     super.initState();
-    // Start a dummy adventure for UI development
-    _adventureService.startAdventure('A magical forest');
+    if (_adventureService.storyHistory.value.value?.isEmpty ?? true) {
+      _adventureService.startAdventure('A magical forest');
+    }
   }
 
   @override
@@ -33,29 +34,73 @@ class _GameplayScreenState extends State<GameplayScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          _adventureService.storyHistory.watch(context).lastOrNull?.title ??
+          _adventureService.storyHistory.watch(context).value?.lastOrNull?.title ??
               'Adventure Forge',
         ),
       ),
       body: Watch((context) {
-        if (_adventureService.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
-        }
+        final storyAsync = _adventureService.storyHistory.watch(context);
 
-        if (_adventureService.errorMessage.value != null) {
-          return Center(
+        return storyAsync.map(
+          data: (story) {
+            if (story.isEmpty) {
+              return const Center(child: Text('No story yet.'));
+            }
+            final currentStep = story.last;
+            return SingleChildScrollView(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // if (_adventureService.currentImage.value != null)
+                  //   Image.memory(
+                  //     _adventureService.currentImage.value!,
+                  //     height: 200,
+                  //     fit: BoxFit.cover,
+                  //   ),
+                  const SizedBox(height: 16),
+                  Text(
+                    currentStep.story,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  const SizedBox(height: 24),
+                  ...currentStep.choices.map(
+                    (choice) => ElevatedButton(
+                      onPressed: () => _adventureService.makeChoice(choice),
+                      child: Text(choice),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: _textController,
+                    decoration: const InputDecoration(
+                      hintText: 'Or type your own action...',
+                      border: OutlineInputBorder(),
+                    ),
+                    onSubmitted: (value) {
+                      if (value.isNotEmpty) {
+                        _adventureService.makeChoice(value);
+                        _textController.clear();
+                      }
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+          error: (error, stackTrace) => Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  _adventureService.errorMessage.value!,
+                  error.toString(),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {
                     final lastChoice =
-                        _adventureService.storyHistory.value.lastOrNull;
+                        _adventureService.storyHistory.value.requireValue.lastOrNull;
                     if (lastChoice != null) {
                       // This is a simplification. A real app would need
                       // to know the last *action*, not the last state.
@@ -67,53 +112,8 @@ class _GameplayScreenState extends State<GameplayScreen> {
                 ),
               ],
             ),
-          );
-        }
-
-        final story = _adventureService.storyHistory.value.lastOrNull;
-        if (story == null) {
-          return const Center(child: Text('No story yet.'));
-        }
-
-        return SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // if (_adventureService.currentImage.value != null)
-              //   Image.memory(
-              //     _adventureService.currentImage.value!,
-              //     height: 200,
-              //     fit: BoxFit.cover,
-              //   ),
-              const SizedBox(height: 16),
-              Text(
-                story.story,
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-              const SizedBox(height: 24),
-              ...story.choices.map(
-                (choice) => ElevatedButton(
-                  onPressed: () => _adventureService.makeChoice(choice),
-                  child: Text(choice),
-                ),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: _textController,
-                decoration: const InputDecoration(
-                  hintText: 'Or type your own action...',
-                  border: OutlineInputBorder(),
-                ),
-                onSubmitted: (value) {
-                  if (value.isNotEmpty) {
-                    _adventureService.makeChoice(value);
-                    _textController.clear();
-                  }
-                },
-              ),
-            ],
           ),
+          loading: () => const Center(child: CircularProgressIndicator()),
         );
       }),
     );

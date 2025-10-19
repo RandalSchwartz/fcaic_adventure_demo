@@ -10,39 +10,32 @@ class AdventureService {
 
   final AIProvider _aiProvider;
 
-  final storyHistory = signal<List<StoryStep>>([]);
+  final storyHistory = asyncSignal<List<StoryStep>>(AsyncState.data([]));
   final currentImage = signal<Uint8List?>(null);
-  final isLoading = signal<bool>(false);
-  final errorMessage = signal<String?>(null);
 
   Future<void> startAdventure(String theme) async {
-    isLoading.value = true;
-    errorMessage.value = null;
+    storyHistory.value = const AsyncLoading();
     try {
       final initialStep = await _aiProvider.generateStoryStep([], theme);
       // final image = await _aiProvider.generateImage(initialStep.imagePrompt);
-      storyHistory.value = [initialStep];
+      storyHistory.value = AsyncData([initialStep]);
       // currentImage.value = image;
-    } catch (e) {
-      errorMessage.value = 'Failed to start adventure: $e';
-    } finally {
-      isLoading.value = false;
+    } catch (e, s) {
+      storyHistory.value = AsyncError(e, s);
     }
   }
 
   Future<void> makeChoice(String choice) async {
-    isLoading.value = true;
-    errorMessage.value = null;
+    final currentStory = storyHistory.value.requireValue;
+    storyHistory.value = const AsyncLoading();
     try {
       final nextStep =
-          await _aiProvider.generateStoryStep(storyHistory.value, choice);
+          await _aiProvider.generateStoryStep(currentStory, choice);
       // final image = await _aiProvider.generateImage(nextStep.imagePrompt);
-      storyHistory.value = [...storyHistory.value, nextStep];
+      storyHistory.value = AsyncData([...currentStory, nextStep]);
       // currentImage.value = image;
-    } catch (e) {
-      errorMessage.value = 'Failed to make choice: $e';
-    } finally {
-      isLoading.value = false;
+    } catch (e, s) {
+      storyHistory.value = AsyncError(e, s);
     }
   }
 }
