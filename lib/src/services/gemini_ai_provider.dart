@@ -89,8 +89,10 @@ class GeminiAIProvider implements AIProvider {
   // }
 
   String _buildStoryPrompt(List<StoryStep> history, String choice) {
+    const formatInstructions = 'Respond with a JSON object with the following keys: "title" (String), "story" (String), "image_prompt" (String), and "choices" (List<String>).';
+
     if (history.isEmpty) {
-      return 'You are an expert storyteller. Create the beginning of a "Choose Your Own Adventure" story based on this theme: "$choice". Provide a title, a story paragraph, an image prompt for the scene, and 3-5 choices for the user.';
+      return 'You are an expert storyteller. Create the beginning of a "Choose Your Own Adventure" story based on this theme: "$choice". $formatInstructions';
     }
 
     final historyString = history
@@ -100,6 +102,6 @@ class GeminiAIProvider implements AIProvider {
         ) // This is a simplification
         .join('\n\n');
 
-    return 'You are an expert storyteller continuing a "Choose Your Own Adventure" story. Here is the story so far:\n$historyString\n\nThe user has just chosen to: "$choice".\n\nContinue the story with a new title, a new story paragraph, a new image prompt, and 3-5 new choices.';
+    return 'You are an expert storyteller continuing a "Choose Your Own Adventure" story. Here is the story so far:\n$historyString\n\nThe user has just chosen to: "$choice".\n\nContinue the story. $formatInstructions';
   }
 }
